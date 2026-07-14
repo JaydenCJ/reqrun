@@ -1,0 +1,33 @@
+# The exact file your editor already runs — reqrun executes it in CI.
+# Select the target with an environment: reqrun quickstart.http --env local
+
+### health
+GET {{base}}/health
+Accept: application/json
+
+> {%
+  client.test("service is healthy", function () {
+    client.assert(response.status === 200, "status is 200");
+    client.assert(response.body.status === 'ok', "body reports ok");
+  });
+%}
+
+### login
+POST {{base}}/login
+Content-Type: application/json
+
+{"user": "admin"}
+
+> {%
+  client.assert(response.status === 200, "login accepted");
+  client.global.set("token", response.body.token);
+%}
+
+### whoami
+GET {{base}}/me
+Authorization: Bearer {{token}}
+
+> {%
+  client.assert(response.body.user === 'amy', "token maps to amy");
+  client.assert(response.body.roles.includes('admin'), "amy is admin");
+%}

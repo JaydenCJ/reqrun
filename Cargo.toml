@@ -1,0 +1,18 @@
+[package]
+name = "reqrun"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["JaydenCJ"]
+description = "A zero-dependency CLI runner for JetBrains-style .http request files: variables, environments, response-handler assertions, JUnit reports — one static binary for CI."
+license = "MIT"
+repository = "https://github.com/JaydenCJ/reqrun"
+keywords = ["http", "rest-client", "testing", "ci", "cli"]
+categories = ["command-line-utilities", "development-tools::testing"]
+
+[dependencies]
+# none — reqrun is std-only by design.
+
+[profile.release]
+strip = true
+lto = true

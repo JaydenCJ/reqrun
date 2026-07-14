@@ -1,0 +1,18 @@
+# Body-from-file, both forms. Run with:
+#   reqrun examples/body-from-file.http --var sku=W-100 --dry-run
+
+@base = http://example.test
+
+### create-verbatim
+# '<' sends the file bytes exactly as they are ({{sku}} stays literal).
+POST {{base}}/items
+Content-Type: application/json
+
+< payload.json
+
+### create-with-variables
+# '<@' resolves {{variables}} inside the file before sending.
+POST {{base}}/items
+Content-Type: application/json
+
+<@ payload.json
